@@ -55,12 +55,12 @@ def main():
     timer_clip_path = 'timer.mp4'
 
     data = pandas.read_csv(data_location)
-    url_len = len(data['url'])
+    total_videos = len(data['url'])
 
     audio_clips = []
     vidlist = []
 
-    for video_index in range(url_len):
+    for video_index in range(total_videos):
         start = data['start'][video_index]
         end = start + total_length
         url = data['url'][video_index]
@@ -81,7 +81,7 @@ def main():
                 video_width,
                 video_height),
             stroke_color='black').set_duration(answer_length).set_pos('center')
-        num_text = '#' + str(video_index + 1) + ' / ' + str(url_len)
+        num_text = '#' + str(video_index + 1) + ' / ' + str(total_videos)
 
         image_path = temp_path + 'img_' + game_name
         if 'img' in data and str(data['img'][video_index]) != 'nan':
