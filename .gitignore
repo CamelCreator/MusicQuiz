@@ -1,0 +1,4 @@
+env/
+temp/
+*.csv
+*.mp4
