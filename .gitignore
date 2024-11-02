@@ -1,4 +1,4 @@
 env/
 temp/
-*.csv
+*.csv*
 *.mp4

@@ -1,5 +1,5 @@
-from pytubefix import YouTube
 from moviepy.editor import *
+from pytubefix import YouTube
 import json
 import os
 import pandas
@@ -9,7 +9,7 @@ import requests
 def youtube_to_mp3(youtube_url, output_path, start = 0, end = 20):
     yt = YouTube(youtube_url)
     video_stream = yt.streams.first()
-    downloaded_file = video_stream.download(output_path=output_path)
+    downloaded_file = video_stream.download(output_path = output_path)
     base, ext = os.path.splitext(downloaded_file)
     mp3_file = base + '.mp3'
     mp3_audio = AudioFileClip(downloaded_file).subclip(start, end)
@@ -29,7 +29,7 @@ def grab_boxart(game_name, boxart_api):
 
     return image_url
 
-def download_image(image_url, image_path = './temp'):
+def download_image(image_url, image_path):
     if image_url is None:
         image_url = None #put backup image here
     img_data = requests.get(image_url).content
@@ -37,7 +37,8 @@ def download_image(image_url, image_path = './temp'):
         handler.write(img_data)
 
 def main():
-    path = './temp/'
+    temp_path = './temp/' # directory to download assets to
+    output_path = './output/' # output directory
     data_location = 'input.csv'
 
     video_width = 640
@@ -63,7 +64,7 @@ def main():
         game_name = data['game'][video_index]
         song_name = data['song'][video_index]
 
-        mp3 = youtube_to_mp3(url, output_path = path, start = start, end = end)
+        mp3 = youtube_to_mp3(url, output_path = temp_path, start = start, end = end)
         mp3 = mp3.set_start(video_index * total_length)
         audio_clips.append(mp3)
 
@@ -72,7 +73,7 @@ def main():
                             stroke_color = 'black').set_duration(answer_length).set_pos('center')
         num_text = '#' + str(video_index + 1) + ' / ' + str(L)
 
-        image_path = path + 'img_' + game_name
+        image_path = temp_path + 'img_' + game_name
         if 'img' in data and str(data['img'][video_index]) != 'nan':
             download_image(data['img'][video_index], image_path = image_path) #Allow custom thumbnails
         else:
@@ -93,12 +94,12 @@ def main():
 
     #Audio quiz
     audio_quiz = CompositeAudioClip(audio_clips)
-    audio_quiz.write_audiofile(path + 'quiz.mp3', fps = 44100)
+    audio_quiz.write_audiofile(output_path + 'MusicQuiz.mp3', fps = 44100)
 
 
     #Video quiz
     video_quiz = concatenate_videoclips(vidlist, method = 'compose')
-    video_quiz.write_videofile('output/MusicQuiz.mp4')
+    video_quiz.write_videofile(output_path + 'MusicQuiz.mp4')
 
 
 if __name__ == "__main__":

@@ -1,10 +1,12 @@
 # MusicQuiz.py
 
 ## Usage
-1. Install dependencies (virtualenv recommended)
+1. Install dependencies (virtualenv recommended, in `env` directory)
 1. Run `python MusicQuiz.py`
 
-Video will be output to `output/MusicQuiz.mp4`.
+Output:
+- video: `output/MusicQuiz.mp4`
+- audio-only: `output/MusicQuiz.mp3`
 
 ## Set up
 Place `input.csv` and `timer.mp4` at the root of this directory.
