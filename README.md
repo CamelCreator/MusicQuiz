@@ -1,8 +1,8 @@
-# MusicQuiz.py
+# music_quiz.py
 
 ## Usage
 1. Install dependencies (virtualenv recommended, in `env` directory)
-1. Run `python MusicQuiz.py`
+1. Run `python music_quiz.py`
 
 Output:
 - video: `output/MusicQuiz.mp4`
