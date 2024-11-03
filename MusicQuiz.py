@@ -40,8 +40,8 @@ def main():
     path = './temp/'
     data_location = 'input.csv'
 
-    video_width = 640
-    video_height = 360
+    video_width = int(640 / 2)
+    video_height = int(360 / 2)
 
     guess_length = 15
     answer_length = 5
@@ -68,22 +68,23 @@ def main():
         audio_clips.append(mp3)
 
         answer = game_name +'\n'+ song_name
-        textclip_answer = TextClip(answer, fontsize = 38, color = 'white', method = "caption", size = (video_width, video_height),
+        textclip_answer = TextClip(answer, fontsize = int(.105 * video_height), color = 'white', method = "caption", size = (video_width, video_height),
                             stroke_color = 'black').set_duration(answer_length).set_pos('center')
         num_text = '#' + str(video_index + 1) + ' / ' + str(L)
 
-        image_path = path + 'img_' + game_name
+        image_path = path + 'img_' + re.sub(r'[^\w]', '', game_name)
         if 'img' in data and str(data['img'][video_index]) != 'nan':
             download_image(data['img'][video_index], image_path = image_path) #Allow custom thumbnails
         else:
             download_image(grab_boxart(game_name, boxart_api), image_path = image_path)
 
-        imageclip = ImageClip(image_path).set_duration(answer_length).set_opacity(.6).set_pos('center').resize((264,352))
+        imageclip = ImageClip(image_path).set_duration(answer_length).set_opacity(.6).set_pos('center')
+        imageclip = imageclip.resize((int(video_width/2.4),video_height))
         black_bg = ColorClip(size=(video_width, video_height), color=(0, 0, 0)).set_duration(answer_length)
         answerclip = CompositeVideoClip([black_bg, imageclip, textclip_answer])
 
         VideoClip = VideoFileClip(timer_clip_path).resize(height=video_height, width = video_width)
-        number_clip = TextClip(num_text, fontsize = 34, color = 'white').set_pos((10,10)).set_duration(guess_length)
+        number_clip = TextClip(num_text, fontsize = int(.095 * video_height), color = 'white').set_pos((5,5)).set_duration(guess_length)
         guessing_clip = CompositeVideoClip([VideoClip, number_clip])
         guessing_clip.audio = mp3
 
