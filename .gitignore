@@ -1,6 +1,6 @@
+__pycache__/
 env/
 temp/
-*.csv
-*.mp4
+*.csv*
 *.mp3
-__pycache__/
+*.mp4
