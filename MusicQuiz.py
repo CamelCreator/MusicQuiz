@@ -8,7 +8,7 @@ import requests
 
 def youtube_to_mp3(youtube_url, output_path, start = 0, end = 20):
     yt = YouTube(youtube_url)
-    video_stream = yt.streams.first()
+    video_stream = yt.streams.filter(only_audio=True).first()
     downloaded_file = video_stream.download(output_path=output_path)
     base, ext = os.path.splitext(downloaded_file)
     mp3_file = base + '.mp3'
@@ -40,8 +40,8 @@ def main():
     path = './temp/'
     data_location = 'input.csv'
 
-    video_width = int(640 / 2)
-    video_height = int(360 / 2)
+    video_width = int(640)
+    video_height = int(360)
 
     guess_length = 15
     answer_length = 5
@@ -70,7 +70,7 @@ def main():
         answer = game_name +'\n'+ song_name
         textclip_answer = TextClip(answer, fontsize = int(.105 * video_height), color = 'white', method = "caption", size = (video_width, video_height),
                             stroke_color = 'black').set_duration(answer_length).set_pos('center')
-        num_text = '#' + str(video_index + 1) + ' / ' + str(L)
+        num_text = '# ' + str(video_index + 1) + ' / ' + str(L)
 
         image_path = path + 'img_' + re.sub(r'[^\w]', '', game_name)
         if 'img' in data and str(data['img'][video_index]) != 'nan':
