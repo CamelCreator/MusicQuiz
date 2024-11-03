@@ -3,7 +3,7 @@ from pytubefix import Playlist
 from random import uniform
 import pandas
 
-playlist_url = 'https://www.youtube.com/playlist?list=PL67305A98005BCAC8'
+playlist_url = ''
 
 playlist = Playlist(playlist_url)
 
