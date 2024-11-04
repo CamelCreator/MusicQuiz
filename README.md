@@ -11,6 +11,10 @@ Output:
 ## Set up
 Place `input.csv` and `timer.mp4` at the root of this directory.
 
+### config.ini
+`config.default.ini` contains default variables for the project and is committed to source control. To override any of these, create `config.ini` with the values you wish to override.\
+Said another way, `config.ini` is not committed to source control, so default settings should go in `config.default.ini` and custom changes should go in `config.ini`.
+
 ### input.csv format
 |column|description|
 |---|---|

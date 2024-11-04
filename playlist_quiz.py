@@ -1,9 +1,12 @@
 from random import uniform
 from pytubefix import Playlist, YouTube
 import pandas
+from config import get_config
+
 
 def main():
-    playlist_url = ''
+    config = get_config()
+    playlist_url = config.get('playlist_quiz', 'playlist_url')
 
     playlist = Playlist(playlist_url)
 
@@ -21,7 +24,8 @@ def main():
         output_data += [{'url': youtube_url, 'start': timestart,
                          'game': title, 'song': ' ', 'img': thumbnail}]
 
-    pandas.DataFrame(output_data).to_csv('input.csv', index=False)
+    pandas.DataFrame(output_data).to_csv(
+        config.get('paths', 'data_location'), index=False)
 
 
 if __name__ == "__main__":
