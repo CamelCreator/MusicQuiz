@@ -6,6 +6,7 @@ from moviepy.editor import AudioFileClip, ColorClip, CompositeAudioClip, \
 from pytubefix import YouTube
 import pandas
 import requests
+from config import get_config
 
 
 def youtube_to_mp3(youtube_url, output_path, start=0, end=20):
@@ -40,19 +41,20 @@ def download_image(image_url, image_path='./temp'):
 
 
 def main():
-    temp_path = './temp/'  # directory to download assets to
-    output_path = './output/'  # output directory
-    data_location = 'input.csv'
+    config = get_config()
+    temp_path = config.get('paths', 'temp_path')
+    output_path = config.get('paths', 'output_path')
+    data_location = config.get('paths', 'data_location')
 
-    video_width = 640
-    video_height = 360
+    video_width = int(config.get('music_quiz', 'video_width'))
+    video_height = int(config.get('music_quiz', 'video_height'))
 
-    guess_length = 15
-    answer_length = 5
+    guess_length = int(config.get('music_quiz', 'guess_length'))
+    answer_length = int(config.get('music_quiz', 'answer_length'))
     total_length = guess_length + answer_length
 
-    boxart_api = 'https://api.topsters.org/api/igdb/search/'
-    timer_clip_path = 'timer.mp4'
+    boxart_api = config.get('music_quiz', 'boxart_api')
+    timer_clip_path = config.get('paths', 'timer_clip_path')
 
     data = pandas.read_csv(data_location)
     total_videos = len(data['url'])

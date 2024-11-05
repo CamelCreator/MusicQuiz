@@ -1,6 +1,7 @@
 __pycache__/
 env/
 temp/
+config.ini
 *.csv*
 *.mp3
 *.mp4
