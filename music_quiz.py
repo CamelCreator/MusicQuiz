@@ -3,6 +3,7 @@ import re
 from moviepy.editor import AudioFileClip, ColorClip, CompositeAudioClip, \
     CompositeVideoClip, concatenate_videoclips, ImageClip, TextClip, \
     VideoFileClip
+from moviepy.audio.fx import audio_normalize
 from pytubefix import YouTube
 import pandas
 import requests
@@ -10,7 +11,8 @@ from config import get_config
 
 
 def youtube_to_mp3(youtube_url, output_path, start=0, end=20):
-    yt = YouTube(youtube_url)
+    print(youtube_url)
+    yt = YouTube(youtube_url, 'WEB')
     video_stream = yt.streams.filter(only_audio=True).first()
     downloaded_file = video_stream.download(output_path=output_path)
     mp3_audio = AudioFileClip(downloaded_file).subclip(start, end)
@@ -69,8 +71,9 @@ def main():
         game_name = data['game'][video_index]
         song_name = data['song'][video_index]
 
-        mp3 = youtube_to_mp3(url, output_path=temp_path, start=start, end=end)
+        mp3 = youtube_to_mp3(url, output_path=temp_path, start=start, end=end).set_fps(44100)
         mp3 = mp3.set_start(video_index * total_length)
+        mp3 = audio_normalize.audio_normalize(mp3)
         audio_clips.append(mp3)
 
         answer = game_name + '\n' + song_name
@@ -119,9 +122,10 @@ def main():
         vidlist.append(guessing_clip)
         vidlist.append(answerclip.crossfadein(0.4))
 
+
     # Audio quiz
-    audio_quiz = CompositeAudioClip(audio_clips)
-    audio_quiz.write_audiofile(output_path + 'MusicQuiz.mp3', fps=44100)
+    audio_quiz = CompositeAudioClip(audio_clips).set_fps(44100)
+    audio_quiz.write_audiofile(output_path + 'MusicQuiz.mp3')
 
     # Video quiz
     video_quiz = concatenate_videoclips(vidlist, method='compose')
