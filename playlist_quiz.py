@@ -8,6 +8,7 @@ def main():
     config = get_config()
     playlist_url = config.get('playlist_quiz', 'playlist_url')
     max_videos = int(config.get('playlist_quiz', 'max_videos'))
+    video_start_threshold = int(config.get('playlist_quiz', 'video_start_threshold'))
 
     playlist = Playlist(playlist_url)
 
@@ -17,8 +18,8 @@ def main():
         title = yt.title
         thumbnail = yt.thumbnail_url
 
-        if yt.length >= 35:
-            timestart = int(uniform(0, yt.length - 35))
+        if yt.length >= video_start_threshold:
+            timestart = int(uniform(0, yt.length - video_start_threshold))
         else:
             timestart = 0
 
