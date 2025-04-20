@@ -103,7 +103,6 @@ def main():
 
         imageclip = ImageClip(image_path).set_duration(
             answer_length).set_opacity(.6).set_pos('center')
-        imageclip = imageclip.resize((int(video_width / 2.4), video_height))
         black_bg = ColorClip(
             size=(
                 video_width, video_height), color=(
