@@ -4,6 +4,7 @@ from moviepy.editor import AudioFileClip, ColorClip, CompositeAudioClip, \
     CompositeVideoClip, concatenate_videoclips, ImageClip, TextClip, \
     VideoFileClip
 from moviepy.audio.fx import audio_normalize
+from moviepy.video.fx.resize import resize
 from pytubefix import YouTube
 import pandas
 import requests
@@ -103,6 +104,7 @@ def main():
 
         imageclip = ImageClip(image_path).set_duration(
             answer_length).set_opacity(.6).set_pos('center')
+        imageclip = resize(imageclip, height=video_height)
         black_bg = ColorClip(
             size=(
                 video_width, video_height), color=(
