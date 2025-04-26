@@ -2,6 +2,7 @@
 
 ## Usage
 1. Install dependencies (virtualenv recommended, in `env` directory)
+1. Ensure you have `imagemagick` and `Node.js` installed on your system
 1. Run `python music_quiz.py`
 
 Output:
@@ -26,3 +27,9 @@ Said another way, `config.ini` is not committed to source control, so default se
 
 ### timer.mp4
 the timer video to display during the song countdown
+
+## playlist_quiz.py
+A bonus script that lets you create a music quiz from a youtube playlist.
+1. Set the playlist (and other variables) in `config.ini`
+1. Run `python playlist_quiz.py` to generate the input csv for the music quiz
+1. Run `python music_quiz.py`
